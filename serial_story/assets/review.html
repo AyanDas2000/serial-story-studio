@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Read-only local story review: prose, intentions and source-linked evidence.">
+  <title>Review the story | Serial Story Studio</title>
+  <link rel="stylesheet" href="/review.css">
+  <script type="module" src="/review.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to story review</a>
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Serial Story Studio / Local review</p>
+      <h1>Review the story.</h1>
+      <p class="muted header-description">Read the prose. Inspect the evidence. Decide what comes next.</p>
+    </div>
+    <div class="header-action">
+      <button id="refresh" class="primary" type="button">Refresh review</button>
+      <p id="connection" class="small" role="status">Opening your local review…</p>
+    </div>
+  </header>
+  <div class="notice" id="scope">Read-only on this device. Generation and spending are off.</div>
+  <div id="error" class="notice error" role="alert" hidden></div>
+  <div class="spine" aria-label="Evidence spine: accepted prose supports interpretations, which inform future direction">
+    <span>Accepted prose</span><span aria-hidden="true">→</span>
+    <span>Confirmed interpretation</span><span aria-hidden="true">→</span>
+    <span>Future direction</span>
+  </div>
+  <nav aria-label="Review sections">
+    <div class="mobile-navigation">
+      <label for="mobile-view">Review section</label>
+      <select id="mobile-view">
+        <option value="read">Read episodes</option>
+        <option value="storyboard">Review storyboard</option>
+        <option value="memory">Inspect memory</option>
+        <option value="quality">Review quality</option>
+        <option value="receipts">Read receipts</option>
+        <option value="model">Review writing model</option>
+      </select>
+    </div>
+    <div id="nav" class="desktop-navigation">
+      <button type="button" data-view="read" aria-current="page">Read episodes</button>
+      <button type="button" data-view="storyboard">Review storyboard</button>
+      <button type="button" data-view="memory">Inspect memory</button>
+      <button type="button" data-view="quality">Review quality</button>
+      <button type="button" data-view="receipts">Read receipts</button>
+      <button type="button" data-view="model">Review writing model</button>
+    </div>
+  </nav>
+  <main id="workspace" tabindex="-1" aria-busy="true">
+    <section class="loading">
+      <h2>Opening the selected story</h2>
+      <p>Accepted prose, proposed memories and future intentions will appear separately.</p>
+      <div class="loading-shape" aria-hidden="true">
+        <div><span></span><span></span></div>
+        <div><span></span><span></span><span></span><span></span><span></span></div>
+        <div><span></span><span></span><span></span></div>
+      </div>
+    </section>
+  </main>
+  <noscript><p class="notice">JavaScript is needed to inspect this local review. No generation or editing is available here.</p></noscript>
+  <footer>Local review only. No publication, automatic approvals or model calls. Light appearance only.</footer>
+</body>
+</html>

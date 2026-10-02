@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Serial Story Studio</title>
+<meta name="studio-token" content="">
+<link rel="stylesheet" href="/studio.css">
+<script src="/studio.js" defer></script>
+<script src="/studio-layout.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#workspace">Skip to workspace</a>
+<header class="desk-head">
+ <div><p class="desk-title">Serial Story Studio</p><p class="desk-sub">A writing desk for stories that continue.</p></div>
+ <div class="session-tools"><span class="session-label">Local workspace</span><button id="refresh" type="button">Refresh saved story</button></div>
+</header>
+<div class="app-shell">
+ <aside class="workspace-index" aria-label="Workspace navigation">
+  <nav class="studio-nav" aria-label="Story workspace">
+   <button type="button" data-view="plan" aria-controls="view-plan" aria-current="page"><span>Plan</span><small>Direct the next episode</small></button>
+   <button type="button" data-view="write" aria-controls="view-write"><span>Write</span><small>Draft, revise, accept</small></button>
+   <button type="button" data-view="continuity" aria-controls="view-continuity"><span>Continuity</span><small>Keep accepted evidence</small></button>
+   <button type="button" data-view="models" aria-controls="view-models"><span>Models</span><small>Choose writing instructions</small></button>
+  </nav>
+  <div class="index-note"><p>Your decisions stay distinct.</p><p>Plans are intentions. Drafts are proposals. Only accepted prose becomes history.</p></div>
+ </aside>
+ <main id="workspace" class="desk" tabindex="-1">
+  <p class="next-step" id="next-step" role="status">Reading the saved story...</p>
+  <section id="view-plan" data-workspace aria-labelledby="plan-title">
+   <header class="view-head"><h1 id="plan-title">Give the story a direction.</h1><p>Set a premise, shape future intentions, then approve the plan before writing.</p></header>
+   <div class="planning-layout"><div class="working-column"><section id="setup-section" hidden>
+      <h2>Start the story</h2>
+      <label for="premise">Story premise</label>
+      <textarea id="premise" rows="3" placeholder="Two or three sentences: who wants what, and what stands in the way."></textarea>
+      <button id="save-premise" type="button" class="primary">Start the story</button>
+    </section><section id="plan-section">
+      <h2>Plan</h2>
+      <p id="plan-status" class="meta"></p>
+      <details><summary>Established intentions, read-only</summary><ol id="established-plan"></ol></details>
+      <label for="plan-note" id="future-label">Future intentions, one per episode line</label>
+      <textarea id="plan-note" rows="8" placeholder="Episode 1: the lamp fails during the storm.&#10;Episode 2: the keeper hides the failure."></textarea>
+      <p class="meta">Lines past your plan stay marked as not yet planned.</p>
+      <div class="action-row">
+        <button id="save-plan" type="button" class="primary">Save plan</button>
+        <button id="approve-plan" type="button">Approve plan</button>
+      </div>
+    </section></div>
+   <aside class="workflow-guide"><h2>From intention to history</h2>
+    <ol class="evidence-spine"><li><strong>Plan the episode</strong><p>Save intentions. Approval gives the writer a direction, not permission to accept prose.</p></li><li><strong>Make it your manuscript</strong><p>Write or paste text, save edits, and apply feedback to this revision or the series voice.</p></li><li><strong>Accept deliberately</strong><p>Save all changes first. Acceptance records the final text and opens the next episode.</p></li><li><strong>Review the evidence</strong><p>Propose memory from exact accepted passages. Confirm each fact separately.</p></li></ol>
+    <button type="button" data-view="write" class="text-action">Go to the writing desk</button>
+   </aside></div>
+  </section>
+  <section id="view-write" data-workspace aria-label="Writing desk" hidden>
+   <div id="write-prerequisite" class="empty-workspace"><h1>Your manuscript belongs here.</h1><p>Start a story and approve its future intentions in Plan. Then write your own prose or try the offline synthetic writer.</p><button type="button" data-view="plan" class="primary">Go to Plan</button><p class="meta">Synthetic drafts test the workflow. They are not evidence of model writing quality.</p></div>
+   <div class="writing-layout"><div class="working-column">
+    <div id="approved-intention" class="intention-strip" hidden><strong>Approved intention</strong><p id="intention-text"></p><button type="button" data-view="plan" class="text-action">Review plan</button></div>
+    <p id="editor-save-state" class="save-state" role="status"></p>
+<section id="manuscript-panel" class="manuscript" aria-label="Manuscript">
+    <div class="manuscript-head">
+      <h1 id="episode-title" tabindex="-1">Episode 1</h1>
+      <p id="word-count" class="count">0 words</p>
+    </div>
+    <div class="action-row" id="draft-actions" hidden>
+      <button id="save-draft" type="button">Save manuscript</button>
+      <button id="accept" type="button" class="primary">Accept as final</button>
+      <button id="revise" type="button">Revise with saved feedback</button>
+      <button id="reject" type="button">Reject draft</button>
+    </div>
+    <div class="action-row" id="new-draft-actions" hidden>
+      <button id="new-draft" type="button">Save pasted prose</button>
+    <button id="generate" type="button" class="primary">Generate synthetic draft</button>
+    </div>
+    <p class="meta">Final acceptance requires 400 to 700 words. Save all changes before accepting.</p>
+    <label for="manuscript" class="field-label">Manuscript</label>
+    <textarea id="manuscript" rows="20" spellcheck="true"
+      placeholder="Write or paste the episode here. Save often; your text is kept on this page until you save it."></textarea>
+    <p id="manuscript-status" role="status" class="status"></p>
+    <div id="merge-preflight" class="merge-summary" aria-live="polite"></div>
+    <details id="merge-details" hidden><summary>Inspect details: frozen instructions and rate snapshot</summary><pre id="merge-preflight-details"></pre></details>
+    <button id="confirm-merge" type="button" hidden>Confirm one paid Merge request</button>
+    <details><summary>Inspect Merge calls and recover charged prose</summary><ul id="merge-recovery"></ul></details>
+    
+    <details><summary>Compare the saved copy</summary><pre id="remote-copy"></pre><button id="use-saved" type="button">Discard unsaved forms and load saved copies</button></details>
+    <details><summary>Inspect draft source and frozen instructions</summary><pre id="draft-receipt"></pre></details>
+  </section></div><aside class="revision-desk"><h2>Review before accepting</h2><p class="meta">Keep the draft open until the prose says what you intend. Acceptance is an explicit author decision.</p><section id="feedback-section" hidden>
+      <h2>Revision feedback</h2><ul id="feedback-list"></ul>
+      <label for="feedback-note">What should change?</label><textarea id="feedback-note" rows="3"></textarea>
+      <label for="feedback-note-scope">Apply feedback to</label><select id="feedback-note-scope"><option value="this-revision">This draft only</option><option value="series">Series voice, also used in future drafts</option></select>
+      <button id="save-feedback" type="button">Save feedback</button>
+      <p class="meta">Revise uses saved prose and feedback. Synthetic material proves the workflow, not writing quality.</p>
+    </section><div class="acceptance-note"><h2>What acceptance means</h2><p>The saved final text enters accepted history. Future intentions advance by one episode. Memory facts still need your separate review.</p><p>No unsaved prose, instructions, plan, or feedback can be accepted.</p></div></aside></div>
+  </section>
+  <section id="view-continuity" data-workspace aria-labelledby="continuity-title" hidden>
+   <header class="view-head"><h1 id="continuity-title">Keep the story consistent.</h1><p>Memory is a ledger of author-confirmed evidence, not a summary of every draft.</p></header>
+   <div class="continuity-layout"><div class="working-column"><p id="continuity-prerequisite" class="empty-note">Start a story in Plan. Register characters and locations here; accepted prose is required before proposing source-linked facts.</p><details id="memory-section" open>
+      <summary>Memory review</summary>
+      <p id="memory-status" class="meta"></p>
+      <ul id="memory-list" class="memory-list"></ul>
+      <label for="entity-name">Register a character or location</label><input id="entity-name" maxlength="128">
+      <label for="entity-kind">Kind</label><select id="entity-kind"><option value="location">Location</option><option value="character">Character</option></select>
+      <label for="entity-role">Character role (locations use no role)</label><select id="entity-role"><option value="">No role</option><option value="protagonist">Protagonist</option><option value="core">Core</option><option value="supporting">Supporting</option></select>
+      <button id="add-entity" type="button">Register entry</button>
+      <label for="fact-entity">Fact concerns</label><select id="fact-entity"></select>
+      <label for="fact-property">Property</label><input id="fact-property" maxlength="128">
+      <label for="fact-value">Value</label><input id="fact-value" maxlength="2000">
+      <label for="fact-source">Accepted source episode</label><select id="fact-source"></select>
+      <details><summary>Inspect exact accepted source</summary><pre id="source-text"></pre></details>
+      <label for="fact-evidence">Exact, unique passage from accepted prose</label><textarea id="fact-evidence" rows="3" maxlength="2000"></textarea>
+      <button id="propose-fact" type="button">Propose memory fact</button>
+    </details></div><aside class="workflow-guide"><h2>Accepted-source memory</h2><ol class="evidence-spine"><li><strong>Accepted prose</strong><p>Your final saved text is the source. Rejected drafts never count as history.</p></li><li><strong>Exact passage</strong><p>Select the accepted episode and quote a unique passage supporting the fact.</p></li><li><strong>Your confirmation</strong><p>Inspect the proposal, then confirm or reject. Nothing becomes a fact automatically.</p></li></ol><section id="receipt-section" hidden>
+      <h2>Accepted</h2>
+      <ul id="receipt-list" class="receipt-list"></ul>
+    </section></aside></div>
+  </section>
+  <section id="view-models" data-workspace aria-labelledby="models-title" hidden>
+   <header class="view-head"><h1 id="models-title">Choose how you write.</h1><p>Use your own prose or an offline synthetic writer. Paid writing is unavailable in this staging session.</p></header>
+   <div class="models-layout"><div class="working-column"><p id="models-prerequisite" class="empty-note">Start a story in Plan to save writing instructions and a writing source. Manual prose does not require a model.</p><details id="settings-section" open>
+      <summary>Writing settings</summary>
+      <label for="provider">Writing source</label>
+      <select id="provider">
+        <option value="fake">Synthetic writer (offline, deterministic)</option>
+        <option value="merge">Merge (paid writing OFF in this session)</option>
+      </select>
+      <label for="prompt-template">Writer instructions</label>
+      <textarea id="prompt-template" rows="6" placeholder="Tone, tense and habits for the writer."></textarea>
+      <label for="output-limit">Output limit (words)</label>
+      <input id="output-limit" type="number" min="100" max="2000" step="10">
+      <label for="feedback-scope">Feedback applies to</label>
+      <select id="feedback-scope">
+        <option value="this-revision">This revision only</option>
+        <option value="series">The whole series voice</option>
+      </select>
+      <button id="reset-prompt" type="button">Reset writer instructions</button>
+      <button id="save-settings" type="button" class="primary">Save settings</button>
+      <p id="settings-status" role="status" class="status"></p>
+    <details class="route-discovery"><summary>Inspect model routing and catalog access</summary><p class="meta">This staging server has catalog access OFF. A saved model and vendor are recorded selections, not live rates or verified inference access. Explicit lookups require a separately authorized server.</p>      <label for="model">Model</label>
+      <select id="model"><option value="">Load the authorized catalog first</option></select>
+      <label for="vendor">Vendor route</label><select id="vendor"><option value="">Choose a model first</option></select>
+      <button id="load-catalog" type="button">Load Merge model catalog</button>
+      <label for="exact-model">Inspect a known canonical model ID</label><input id="exact-model" maxlength="200" placeholder="provider/concrete-model-id">
+      <button id="lookup-model" type="button">Inspect exact Merge model</button>
+      <p id="catalog-status" class="meta"></p><details><summary>Inspect selected route and rate metadata</summary><pre id="model-price"></pre></details>
+      <p id="merge-note" class="meta" hidden>Real Merge generation is blocked until verified pricing and the shared USD 1 ledger are wired up. Nothing is sent or spent.</p>
+</details></details></div><aside class="workflow-guide"><h2>Know the exact route</h2><p>Model ID and vendor route are separate choices. Neither a saved selection nor a catalog listing proves inference access.</p><h2>Recorded is not live</h2><p>Saved instructions and draft receipts describe the request that produced that draft. Catalog prices are metadata from an explicit lookup, not a live charge or guaranteed cost.</p><h2>Paid writing is off</h2><p>No credits, quality scores, or automatic requests. This isolated session has no permission for paid generation. Catalog access also requires separate server authorization.</p></aside></div>
+  </section>
+  <p id="banner" role="alert" class="banner" hidden></p>
+ </main>
+</div>
+</body>
+</html>

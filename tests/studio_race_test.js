@@ -1,0 +1,36 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+class Element {
+ constructor(id){this.id=id;this.value='';this.textContent='';this.hidden=false;this.disabled=false;this.listeners={};this.children=[];this.classList={toggle(){}};}
+ addEventListener(n,f){(this.listeners[n]??=[]).push(f);} appendChild(e){this.children.push(e);}
+ get value(){return ['model','vendor'].includes(this.id)&&!this.children?.some(e=>String(e.value)===String(this._value))?'':this._value;}
+ set value(v){this._value=v;}
+ get textContent(){return this._textContent;}
+ set textContent(v){this._textContent=v;if(['model','vendor'].includes(this.id))this.children=[];}
+ input(v){this.value=v;for(const event of ['input','change'])for(const f of this.listeners[event]??[])f();}
+ click(){return (this.listeners.click??[])[0]();}
+}
+const original={writable:true,story:{next_episode:1,premise:'Synthetic'},basis:{history_revision:0,memory_revision:0,plan_id:1,settings_version:1,feedback_revision:0,next_episode:1},plan:{id:1,status:'approved',established:[],future:[{intention:'Plan A'}]},pending:{id:1,number:1,text:'Prose saved',text_version:1,feedback:[]},settings:{version:1,provider:'fake',model:'',vendor:'',prompt_template:'Settings A',output_limit_words:700,feedback_scope:'this-revision'},memory:{entities:[],facts:[]},accepted:[],receipts:[]};
+async function harness(initial=original){let ready,resolvePost,remote=structuredClone(initial),calls=[];const els={};const get=n=>els[n]??=new Element(n);const document={getElementById:get,querySelector:()=>({content:'synthetic'}),createElement:()=>new Element('new'),addEventListener:(n,f)=>ready=f};
+ const fetch=async(url,opt={})=>{if(opt.method==='POST'){calls.push({url,payload:JSON.parse(opt.body)});return new Promise(r=>resolvePost=r);}if(url==='/api/merge/catalog')return {ok:true,json:async()=>({models:remote.catalog??[{model:'synthetic/model',vendors:[{vendor:'a'},{vendor:'b'}]},{model:'synthetic/other',vendors:[{vendor:'c'}]}]})};return {ok:true,json:async()=>structuredClone(remote)};};
+ vm.runInNewContext(fs.readFileSync(process.argv[2],'utf8'),{document,fetch,crypto:require('node:crypto').webcrypto,confirm:()=>true});ready();await flush();return {get,calls,remote,finish:body=>resolvePost({ok:true,json:async()=>body})};}
+async function flush(){for(let i=0;i<20;i++)await Promise.resolve();}
+(async()=>{
+ for(const field of ['plan-note','feedback-note','prompt-template']){const h=await harness();h.get(field).input('Unsaved');assert.equal(h.get('accept').disabled,true,field+' must block acceptance');await h.get('accept').click();assert.equal(h.calls.length,0);assert.match(h.get('banner').textContent,/save/i);}
+ const cases=[['manuscript','save-draft','expected_text_version'],['prompt-template','save-settings','expected_version'],['plan-note','save-plan','expected_plan_id'],['feedback-note','save-feedback','basis']];
+ for(const [field,button,key] of cases){const h=await harness();h.get(field).input('Submitted A');const saving=h.get(button).click();h.get(field).input('Newer B');let result={};
+  if(field==='manuscript'){h.remote.pending.text='Submitted A';h.remote.pending.text_version=2;result={text_version:2};}
+  if(field==='prompt-template'){h.remote.settings.prompt_template='Submitted A';h.remote.settings.version=2;h.remote.basis.settings_version=2;result={settings:structuredClone(h.remote.settings)};}
+  if(field==='plan-note'){h.remote.plan.id=2;h.remote.plan.future=[{intention:'Submitted A'}];h.remote.plan.status='proposed';h.remote.basis.plan_id=2;result={plan_id:2,status:'proposed'};}
+  if(field==='feedback-note'){h.remote.basis.feedback_revision=1;result={saved:true,feedback_revision:1};}
+  h.finish(result);await saving;assert.equal(h.get(field).value,'Newer B',field+' lost newer input');assert.equal(h.get('accept').disabled,true);const next=h.get(button).click();const payload=h.calls.at(-1).payload;assert.equal(key==='basis'?payload.basis.feedback_revision:payload[key],field==='feedback-note'?1:2,field+' must advance only acknowledged CAS');h.finish(result);await next;
+ }
+ const h=await harness();h.get('entity-name').input('Keep entity');h.get('fact-value').input('Keep fact');const accepting=h.get('accept').click();h.remote.pending=null;h.finish({});await accepting;assert.equal(h.get('entity-name').value,'Keep entity');assert.equal(h.get('fact-value').value,'Keep fact');
+ const reset=await harness();reset.get('output-limit').input('650');const resetting=reset.get('reset-prompt').click();
+ if(reset.calls.length)reset.finish({settings:{...reset.remote.settings,prompt_template:'',version:2}});
+ await resetting;assert.equal(reset.get('output-limit').value,'650','Reset must retain unrelated unsaved settings');assert.equal(reset.get('prompt-template').value,'');assert.equal(reset.calls.length,0,'Reset should be a local edit requiring Save settings');
+ const savingReset=reset.get('save-settings').click();assert.equal(reset.calls.at(-1).payload.output_limit_words,650);assert.equal(reset.calls.at(-1).payload.prompt_template,'');assert.equal(reset.calls.at(-1).payload.expected_version,1);reset.finish({settings:structuredClone(reset.remote.settings)});await savingReset;
+ const catalogState=structuredClone(original);catalogState.settings.model='synthetic/model';catalogState.settings.vendor='a';const catalogHarness=await harness(catalogState);await catalogHarness.get('load-catalog').click();catalogHarness.get('vendor').input('b');await catalogHarness.get('load-catalog').click();assert.equal(catalogHarness.get('vendor').value,'b','Catalog reload must preserve the unsaved vendor');const savingVendor=catalogHarness.get('save-settings').click();assert.equal(catalogHarness.calls.at(-1).payload.vendor,'b');assert.equal(catalogHarness.calls.at(-1).payload.expected_version,1);catalogHarness.finish({settings:catalogHarness.remote.settings});await savingVendor;
+ const restoring=await harness(catalogState);await restoring.get('load-catalog').click();restoring.get('model').input('synthetic/other');restoring.get('vendor').input('c');await restoring.get('use-saved').click();assert.equal(restoring.get('model').value,'synthetic/model');assert.equal(restoring.get('vendor').value,'a','Restore must rebuild vendor options for the saved model');restoring.get('output-limit').input('650');const saveRestored=restoring.get('save-settings').click();assert.equal(restoring.calls.at(-1).payload.vendor,'a');restoring.finish({settings:restoring.remote.settings});await saveRestored;
+ const missing=await harness(catalogState);await missing.get('load-catalog').click();missing.get('vendor').input('b');missing.remote.catalog=[{model:'synthetic/model',vendors:[{vendor:'a'}]}];await missing.get('load-catalog').click();assert.equal(missing.get('vendor').value,'b','Missing vendor must remain selected and explicitly unavailable');assert.match(missing.get('vendor').children.find(o=>o.value==='b').textContent,/unavailable/i);missing.remote.catalog=[];await missing.get('load-catalog').click();assert.equal(missing.get('model').value,'synthetic/model');assert.equal(missing.get('vendor').value,'b');
+ console.log('PASS: acceptance guards, save races/CAS, memory retention, reset/reload/restore and unavailable selections');
+})().catch(e=>{console.error(e);process.exitCode=1;});
