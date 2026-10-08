@@ -1,0 +1,7 @@
+Current source checkout: 320f5f29076a522018df7226349c927d6710c9e0
+Python 3.14 venv
+Command: .venv\Scripts\python.exe -m unittest discover -s tests -q
+Ran 354 tests in 166.062s
+OK
+Exit code: 0
+No live API calls made by this verification.

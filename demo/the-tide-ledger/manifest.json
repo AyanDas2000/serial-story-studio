@@ -1,0 +1,79 @@
+[
+  {
+    "episode": 1,
+    "file": "episode-01-approved.md",
+    "approved": true,
+    "words": 784,
+    "revision": "rv-d23ed5627341"
+  },
+  {
+    "episode": 2,
+    "file": "episode-02-approved.md",
+    "approved": true,
+    "words": 829,
+    "revision": "rv-51fe15fd2145"
+  },
+  {
+    "episode": 3,
+    "file": "episode-03-approved.md",
+    "approved": true,
+    "words": 799,
+    "revision": "rv-34182ee86c94"
+  },
+  {
+    "episode": 4,
+    "file": "episode-04-approved.md",
+    "approved": true,
+    "words": 783,
+    "revision": "rv-5445f6f3471e"
+  },
+  {
+    "episode": 5,
+    "file": "episode-05-approved.md",
+    "approved": true,
+    "words": 776,
+    "revision": "rv-73f69bc06693"
+  },
+  {
+    "episode": 6,
+    "file": "episode-06-approved.md",
+    "approved": true,
+    "words": 873,
+    "revision": "rv-00e32508a7eb"
+  },
+  {
+    "episode": 7,
+    "file": "episode-07-approved.md",
+    "approved": true,
+    "words": 871,
+    "revision": "rv-4983dc4ea805"
+  },
+  {
+    "episode": 8,
+    "file": "episode-08-approved.md",
+    "approved": true,
+    "words": 895,
+    "revision": "rv-c48d0b78348e"
+  },
+  {
+    "episode": 9,
+    "file": "episode-09-approved.md",
+    "approved": true,
+    "words": 882,
+    "revision": "rv-7354061fdfd8"
+  },
+  {
+    "episode": 10,
+    "file": "episode-10-approved.md",
+    "approved": true,
+    "words": 888,
+    "revision": "rv-019e81a65d5f"
+  },
+  {
+    "episode": 11,
+    "file": "episode-11-unapproved.md",
+    "approved": false,
+    "words": 902,
+    "revision": "rv-1db2d0100466"
+  }
+]

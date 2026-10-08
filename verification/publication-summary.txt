@@ -1,0 +1,6 @@
+Publication verification: 350 tests passed in 81.026 seconds.
+Offline HTTP smoke: shelf, current logic page and shelf API all returned 200.
+Credential and coding-tool reference scan: passed on 190 tracked files.
+Report image references: all resolved.
+No paid API calls made.
+Earlier source checks are recorded separately.

@@ -1,6 +1,0 @@
-# Documentation-only placeholders; not loaded by the scaffold.
-# No credentials or real-provider fallback, even if keys exist.
-provider = "fake"
-max_calls_per_episode = 3
-max_cost_micro_usd_per_episode = 0
-context_max_characters = 18000

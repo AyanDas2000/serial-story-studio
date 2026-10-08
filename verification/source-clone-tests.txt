@@ -1,0 +1,5 @@
+Git bundle cloned successfully.
+Clean source clone: tests.test_v1_titles tests.test_v1_ui_static tests.test_v1_shelf
+Ran 36 tests in 6.965s
+OK
+Exit code: 0

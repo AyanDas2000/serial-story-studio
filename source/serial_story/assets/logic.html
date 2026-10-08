@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Writing logic | Serial Story Studio</title><link rel="stylesheet" href="/v1.css"><link rel="stylesheet" href="/logic.css"></head>
+<body><a class="skip" href="#logic-main">Skip to writing logic</a>
+<header class="top logic-top"><div><div class="brand">Serial Story Studio</div><div class="meta">Current writing logic</div></div><a class="logic-link" href="/">Return to the shelf</a></header>
+<main id="logic-main" class="logic-main" tabindex="-1"><h1>The author directs the story</h1>
+<p>As a serial grows, the model and author have more context to track. The desk separates governing direction, planned episodes, editable drafts, approved prose and source-linked facts. It gives the author explicit control over adoption, editing, approval and corrections.</p>
+<h2>The current loop</h2><ol><li>Adopt the story direction and episode plan.</li><li>Freeze a drafting request with the direction, episode goal, style and exact earlier prose.</li><li>Generate a draft in practice mode or through Merge Gateway. A draft is not approved story text.</li><li>Edit, save and approve the exact prose. Approval locks that revision.</li><li>Preview extracted facts, inspect their source quotes and explicitly confirm them.</li></ol>
+<h2>Control and recovery</h2><p>Edits create revisions. Changing earlier draft text flags dependent later work for review. Version checks stop stale results replacing current work. Provider calls run outside database transactions; uncertain outcomes pause for human resolution instead of automatic retries.</p>
+<h2>Length and spending</h2><p>Studio, Length sets the shortest, target and longest episode size for future requests. It does not rewrite existing prose or guarantee model compliance. Live calls reserve estimated cost and settle afterward. The local spending limit is per series; the supplied key's provider-side limit is separate.</p>
+<h2>What remains unfinished</h2><p>The Memory ledger supports author inspection and does not feed the writer. Draft requests still include all earlier prose. Bounded retrieval, semantic consistency checking and demonstrated 200-episode behavior remain unfinished. The protected-secret check matches words, not ideas.</p>
+<h2>Development approach</h2><p>This project was built largely using LLM-powered coding tools. Ayan defined the core logic, workflow and design decisions and directed the iterations; not every component was manually implemented by Ayan.</p>
+</main></body></html>

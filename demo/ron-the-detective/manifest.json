@@ -1,0 +1,122 @@
+[
+  {
+    "episode": 1,
+    "file": "episode-01.md",
+    "words": 862,
+    "approved": false,
+    "revision": "rv-2d16c5338733",
+    "origin": "human"
+  },
+  {
+    "episode": 2,
+    "file": "episode-02.md",
+    "words": 808,
+    "approved": false,
+    "revision": "rv-4180b4472469",
+    "origin": "generated"
+  },
+  {
+    "episode": 3,
+    "file": "episode-03.md",
+    "words": 746,
+    "approved": false,
+    "revision": "rv-d1d329e4e993",
+    "origin": "generated"
+  },
+  {
+    "episode": 4,
+    "file": "episode-04.md",
+    "words": 816,
+    "approved": false,
+    "revision": "rv-e1c3ded70b09",
+    "origin": "generated"
+  },
+  {
+    "episode": 5,
+    "file": "episode-05.md",
+    "words": 831,
+    "approved": false,
+    "revision": "rv-b00224cc145d",
+    "origin": "generated"
+  },
+  {
+    "episode": 6,
+    "file": "episode-06.md",
+    "words": 902,
+    "approved": false,
+    "revision": "rv-328ce749a848",
+    "origin": "generated"
+  },
+  {
+    "episode": 7,
+    "file": "episode-07.md",
+    "words": 870,
+    "approved": false,
+    "revision": "rv-d1598ccfee76",
+    "origin": "generated"
+  },
+  {
+    "episode": 8,
+    "file": "episode-08.md",
+    "words": 980,
+    "approved": false,
+    "revision": "rv-3447c0f954e2",
+    "origin": "generated"
+  },
+  {
+    "episode": 9,
+    "file": "episode-09.md",
+    "words": 868,
+    "approved": false,
+    "revision": "rv-433cb67ce558",
+    "origin": "generated"
+  },
+  {
+    "episode": 10,
+    "file": "episode-10.md",
+    "words": 915,
+    "approved": false,
+    "revision": "rv-8faf74dd322b",
+    "origin": "generated"
+  },
+  {
+    "episode": 11,
+    "file": "episode-11.md",
+    "words": 794,
+    "approved": false,
+    "revision": "rv-a9aada13868a",
+    "origin": "generated"
+  },
+  {
+    "episode": 12,
+    "file": "episode-12.md",
+    "words": 821,
+    "approved": false,
+    "revision": "rv-a7c86279e752",
+    "origin": "generated"
+  },
+  {
+    "episode": 13,
+    "file": "episode-13.md",
+    "words": 884,
+    "approved": false,
+    "revision": "rv-343cc7392c96",
+    "origin": "generated"
+  },
+  {
+    "episode": 14,
+    "file": "episode-14.md",
+    "words": 892,
+    "approved": false,
+    "revision": "rv-4aeb2a6fe7a4",
+    "origin": "generated"
+  },
+  {
+    "episode": 15,
+    "file": "episode-15.md",
+    "words": 927,
+    "approved": false,
+    "revision": "rv-4d483c9fc77d",
+    "origin": "generated"
+  }
+]

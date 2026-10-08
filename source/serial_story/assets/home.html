@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="studio-token" content="">
+<meta name="color-scheme" content="light dark">
+<title>Your series · Serial Story Studio</title>
+<link rel="icon" href="/v1.css" type="image/x-icon">
+<link rel="stylesheet" href="/v1.css">
+<link rel="stylesheet" href="/home.css">
+<link rel="stylesheet" href="/guide.css">
+<script src="/guide.js" defer></script>
+<script src="/home.js" defer></script>
+</head>
+<body class="home">
+<a class="skip" href="#main">Skip to your series</a>
+<header class="hbar">
+  <span class="brand">Serial Story Studio</span>
+  <button type="button" class="plain" id="start-btn" data-action="start-open">Start here</button>
+  <span class="hmode mono" id="hmode">Practice writer. Nothing is sent or charged.</span>
+</header>
+<main id="main" tabindex="-1" aria-busy="true">
+  <div class="hwrap">
+    <div class="hhead">
+      <h1>Your series</h1>
+      <button type="button" class="btn tonal" id="new-btn" data-action="new-open" aria-expanded="false" aria-controls="hnew">New series</button>
+    </div>
+    <p class="hint hsub">Each series keeps its own story, memory and secrets. Nothing crosses from one series to another.</p>
+    <form class="hnew" id="hnew" novalidate hidden>
+      <label for="hnew-title">Name your series</label>
+      <input id="hnew-title" maxlength="80" autocomplete="off" aria-describedby="hnew-err">
+      <fieldset class="hwriter" id="hwriter" hidden>
+        <legend>Who writes it</legend>
+        <label class="hopt"><input type="radio" name="hwriter" value="practice" checked><span><b>Practice writer</b><span class="hint">Follows a script. Free. Good for learning the desk.</span></span></label>
+        <label class="hopt"><input type="radio" name="hwriter" value="live"><span><b>Live writer</b><span class="hint">Real models. This series gets its own spend limit.</span></span></label>
+        <div class="hcap" id="hcap" hidden>
+          <label for="hnew-cap">Spend limit for this series (US dollars)</label>
+          <input id="hnew-cap" type="number" inputmode="decimal" min="0.5" max="5" step="0.5" value="3" aria-describedby="hcap-hint">
+          <p class="hint" id="hcap-hint">The desk stops sending to the models when this is reached. It cannot be raised past the most this desk allows.</p>
+        </div>
+      </fieldset>
+      <p class="field-err" id="hnew-err" role="alert" hidden></p>
+      <div class="erow"><button type="submit" class="btn tonal" id="hnew-go">Create series</button><button type="button" class="plain" data-action="new-close">Cancel</button></div>
+    </form>
+    <section class="hintro" id="hintro" aria-labelledby="hintro-h" hidden>
+      <h2 id="hintro-h">How this works</h2>
+      <ol>
+        <li>A series is one story with its own plan, memory and secrets.</li>
+        <li id="hintro-writer">The writer here is a practice writer. It follows a script, so nothing is sent anywhere and nothing is charged.</li>
+        <li>Open the sample to look around, or start your own.</li>
+      </ol>
+    </section>
+    <dialog id="start" class="startdlg" aria-labelledby="start-h">
+  <header class="startbar"><p class="mono" id="start-count"></p><button type="button" class="plain" data-action="start-close">Close</button></header>
+  <h2 id="start-h" tabindex="-1"></h2>
+  <div id="start-body"></div>
+  <div class="erow startnav"><button type="button" class="plain" id="start-back" data-action="start-back">Back</button><button type="button" class="btn tonal" id="start-next" data-action="start-next">Next</button></div>
+</dialog>
+    <ul class="shelf" id="shelf" aria-label="Series"><li class="scard skel" aria-hidden="true"></li><li class="scard skel" aria-hidden="true"></li></ul>
+    <p class="hint" id="hmsg" role="status" hidden></p>
+    <p class="hint" id="startmsg" role="alert" hidden></p>
+  </div>
+</main>
+</body>
+</html>

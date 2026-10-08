@@ -1,33 +1,16 @@
-# Secrets and private material
+# Credentials and local author state
 .env
 .env.*
 !.env.example
-keys/
-secrets/
-credentials*
-*.pem
-*.key
-private/
-inputs/
-private-input/
-# Local story state, traces and exports
-local/
-exports/
-traces/
-raw-traces/
-*.db
-*.db-*
-*.sqlite
-*.sqlite-*
-*.sqlite3
-*.sqlite3-*
-# Isolated tooling and caches
-.venv/
-__pycache__/
-*.py[cod]
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
-dist/
-build/
-*.egg-info/
+**/.env
+**/.env.*
+!**/.env.example
+**/stories/
+**/local/
+**/*.db
+**/*.sqlite*
+**/*.jsonl
+**/__pycache__/
+**/*.pyc
+**/.venv/
+**/.playwright-cli/

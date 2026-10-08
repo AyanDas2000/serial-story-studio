@@ -1,0 +1,6 @@
+<source>\local\test-runs\tmp52olhqyb\stories\beta.zip (859 KB, 79 files)
+<source>\local\test-runs\tmpcd_y_xg4\stories\trial.zip (857 KB, 75 files)
+----------------------------------------------------------------------
+Ran 350 tests in 81.026s
+
+OK

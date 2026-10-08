@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="studio-token" content="">
+<meta name="studio-base" content="">
+<meta name="studio-home" content="">
+<meta name="studio-series" content="">
+<meta name="color-scheme" content="light dark">
+<title>Serial Story Studio</title>
+<link rel="icon" href="/v1.css" type="image/x-icon">
+<link rel="stylesheet" href="/v1.css">
+<link rel="stylesheet" href="/guide.css">
+<script src="/guide.js" defer></script>
+<script src="/v1.js" defer></script>
+</head>
+<body data-mode="first" data-room="write">
+<a class="skip" href="#main">Skip to the story</a>
+<div id="banner" class="banner" role="status" hidden></div>
+<div class="shell" id="shell">
+<div class="chat" id="chat" role="complementary" aria-label="Chat">
+  <div class="resizer" id="resizer" role="separator" aria-orientation="vertical" aria-label="Resize chat" aria-valuemin="300" aria-valuemax="760" aria-valuenow="340" tabindex="0" title="Drag to resize. Double-click to reset."></div>
+  <h1 class="sr" id="chat-h1" hidden>Chat</h1>
+  <div class="chat-head">
+    <button type="button" class="tool-btn" id="chat-hide" data-action="toggle-focus" aria-pressed="false" aria-label="Hide chat" title="Hide chat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 4l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <h2 class="chat-title" id="chat-title">Chat</h2>
+    <button type="button" class="tool-btn dock-cycle" id="dock-cycle" data-action="dock-cycle" aria-label="Open chat" title="Resize chat"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 12l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  <div class="chatwarn" id="chatwarn" role="alert" hidden></div>
+  <div class="chatscroll" id="chatscroll" tabindex="0" role="region" aria-label="Conversation">
+    <div class="chatlog" id="chatlog" role="log" aria-live="polite" aria-relevant="additions" aria-label="Messages"></div>
+  </div>
+  <button type="button" class="jump" id="jump" data-action="jump" hidden>Jump to newest</button>
+  <button type="button" class="peekline" id="peekline" data-action="dock-set" data-h="half" hidden>Open chat</button>
+  <div class="composer-wrap" id="composer-wrap">
+    <div class="scopemenu" id="scopemenu" role="listbox" aria-label="What this chat is about" hidden></div>
+    <div class="chips" id="chips" aria-label="What the chat is about"></div>
+    <div class="composer">
+      <label class="sr" for="composer">Your message</label>
+      <textarea id="composer" rows="1" maxlength="4000" placeholder="Type an idea, or ask for a change" autocomplete="off"></textarea>
+      <div class="cfoot">
+        <button type="button" class="scopepill" id="scope-btn" data-action="scope-toggle" aria-haspopup="listbox" aria-expanded="false" aria-controls="scopemenu"><span id="scope-label">Follows the room</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <span class="writerchip" id="writerchip">Writer: practice</span>
+        <button type="button" class="sendbtn" id="send" data-action="send" aria-label="Send message"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V5M5 9.5L10 4.5l5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+    <p class="mono caption">Sends your message, your premise and spine, and the last few messages. Does not change your story.</p>
+  </div>
+</div>
+<div class="book" id="book">
+<header class="bar" id="bar">
+  <div class="bar-left">
+    <button type="button" class="tool-btn chat-open" id="chat-open" data-action="toggle-focus" aria-label="Show chat" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 5h12v8H9l-4 3v-3H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="lbl">Chat</span></button>
+    <div class="bar-id">
+      <span class="brand">Serial Story Studio</span>
+      <span class="where" id="where">Opening your story</span>
+    </div>
+  </div>
+  <nav class="rooms" id="rooms" aria-label="Rooms"></nav>
+  <div class="bar-tools">
+    <span class="orbchip" id="memchip" hidden><span class="orbwrap" role="status"><span class="orb" data-s="compacting" aria-hidden="true"><i class="o-r"></i><i class="o-a"></i><i class="o-c"></i><i class="o-g"></i></span><span class="otext" id="memchip-text"></span></span></span>
+    <button type="button" class="pill" id="needs-btn" data-action="toggle-needs" aria-haspopup="true" aria-expanded="false" aria-controls="needs" hidden><span class="ring" aria-hidden="true"></span><svg class="ic" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 11.5l2-6h9l2 6v4h-13z M3.5 11.5h4l1 2h3l1-2h4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg><span class="n" id="needs-count">0</span><span class="lbl" title="Decisions waiting for you: drafts to approve, facts to review.">Needs you</span></button>
+    <button type="button" class="tool-btn" id="home-btn" data-action="go-home" aria-label="All series" title="Back to all your series" hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.5 9.5L10 4l6.5 5.5V16h-4.2v-4.2H7.7V16H3.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="lbl">Home</span></button>
+    <button type="button" class="tool-btn" data-action="open-palette" title="Find or do anything (Ctrl+K)" aria-label="Find or do anything">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="9" cy="9" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M13.2 13.2L17 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span class="lbl">Find</span>
+    </button>
+    <button type="button" class="tool-btn" data-action="open-studio" id="studio-btn" aria-label="Studio">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h9M16 6h1M3 14h1M8 14h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/><circle cx="14" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="14" r="2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="lbl">Studio</span>
+    </button>
+  </div>
+</header>
+<div class="needs" id="needs" role="dialog" aria-label="Needs you" hidden></div>
+<section class="threadwrap" id="threadwrap" aria-label="Episodes" hidden>
+  <div class="thread-row">
+    <button type="button" class="tbtn" id="tprev" data-action="step-ep" data-d="-1" aria-label="Previous episode"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" class="tstory" id="tstory" data-nav="plan" aria-label="Story direction and plan"><i></i></button>
+    <div class="track" id="track">
+      <div class="track-in" id="track-in">
+        <i class="cap" id="cap" aria-hidden="true" hidden></i>
+        <i class="playhead" id="playhead" aria-hidden="true" hidden></i>
+        <i class="arc" id="arc" aria-hidden="true" hidden></i>
+        <div class="knots" id="knots" role="listbox" aria-orientation="horizontal" aria-label="Episodes in order"></div>
+      </div>
+    </div>
+    <button type="button" class="tbtn" id="tnext" data-action="step-ep" data-d="1" aria-label="Next episode"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+  <div class="bubble" id="bubble" hidden aria-hidden="true"></div>
+</section>
+<main id="main" tabindex="-1" aria-busy="true"><div class="skeleton" aria-hidden="true"><i></i><i></i><i></i></div></main>
+<footer class="dock" id="dock" aria-label="Actions" hidden>
+  <div class="dock-l"><span class="savestate" id="save" data-state="saved">Saved</span><span class="practice mono" id="practice" hidden>Current writer: practice</span></div>
+  <div class="dock-m"><button type="button" class="spendchip" id="spendchip" data-nav="studio/money" hidden></button></div>
+  <div class="dock-r" id="dock-main"></div>
+</footer>
+</div>
+</div>
+<div id="status" class="sr" role="status" aria-live="polite" aria-atomic="true"></div>
+<div class="flight" id="flight" aria-hidden="true"></div>
+<dialog id="sheet" aria-modal="true" aria-labelledby="sheet-title"><div class="sheet-head"><h2 id="sheet-title" tabindex="-1"></h2><button type="button" class="closebtn" data-action="close-sheet"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>Close</span></button></div><div id="sheet-body" class="sheet-body"></div></dialog>
+<dialog id="studio" aria-modal="true" aria-labelledby="studio-title" data-view="list">
+  <div class="studio">
+    <div class="studio-list">
+      <div class="sheet-head"><h2 id="studio-title" tabindex="-1">Studio</h2><button type="button" class="closebtn" data-action="close-studio"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>Close</span></button></div>
+      <ul class="srooms" id="srooms"></ul>
+      <div class="theme" role="group" aria-label="Theme"><button type="button" data-theme-set="system" aria-pressed="true">System</button><button type="button" data-theme-set="light" aria-pressed="false">Light</button><button type="button" data-theme-set="dark" aria-pressed="false">Dark</button></div>
+      <details class="support"><summary>Support</summary><p class="fine"><a href="/logic">Review the writing logic</a></p></details>
+    </div>
+    <div class="studio-room" id="sroom"></div>
+  </div>
+</dialog>
+<dialog id="palette" aria-modal="true" aria-label="Find or do anything">
+  <input id="pal-input" type="text" role="combobox" aria-expanded="true" aria-controls="pal-list" aria-autocomplete="list" aria-label="Go to, search, or do" placeholder="Go to, search, or do" autocomplete="off" spellcheck="false">
+  <ul id="pal-list" role="listbox" aria-label="Results"></ul>
+  <p id="pal-empty" class="hint" role="status" hidden>Nothing matches. Try other words.</p>
+</dialog>
+</body>
+</html>

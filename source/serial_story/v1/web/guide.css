@@ -1,0 +1,33 @@
+/* The guide: diagrams and the first-visit walkthrough. Tokens come from v1.css. */
+.guide{max-width:780px}
+.guide h2{margin-bottom:var(--s2)}
+.gsec{margin:var(--s8) 0 0;padding-top:var(--s6);border-top:1px solid var(--hair)}
+.gsec h3{margin:0 0 var(--s2)}
+.gsec p{max-width:64ch}
+.gfig{margin:var(--s4) 0 var(--s2)}
+.gsvg{display:block;width:100%;height:auto;max-width:760px}
+.gsvg .gb rect{fill:var(--page);stroke:var(--ink-3);stroke-width:1.5}
+.gsvg .gb.yu rect{fill:var(--navy-tint);stroke:var(--navy)}
+.gsvg .gb.tl rect{stroke-dasharray:5 4}
+.gsvg .gb.never rect{fill:none;stroke:var(--rust);stroke-dasharray:3 3}
+.gsvg text{fill:var(--ink);font:500 14px var(--ui)}
+.gsvg .sub{fill:var(--ink-2);font:400 12px var(--ui)}
+.gsvg .gn{font:600 13px var(--ui);fill:var(--ink-2)}
+.gsvg .ga{stroke:var(--ink-2);stroke-width:1.5;fill:none}
+.gsvg .gm{fill:var(--ink-2)}
+.gsvg .gdiv{stroke:var(--hair);stroke-width:1.5;fill:none}
+.gsvg .gz rect{stroke:var(--ink-3);stroke-width:1.5}
+.gsvg .gz.under rect{fill:var(--page)}
+.gsvg .gz.normal rect{fill:var(--navy-tint);stroke:var(--navy)}
+.gsvg .gz.long rect{fill:var(--page);stroke:var(--amber)}
+.gsvg .gz.over rect{fill:none;stroke:var(--rust);stroke-dasharray:3 3}
+.glegend{display:flex;align-items:center;gap:var(--s2);flex-wrap:wrap;margin:var(--s2) 0 0;color:var(--ink-2);font-size:13px}
+.gk{display:inline-block;width:22px;height:14px;border-radius:4px;border:1.5px solid var(--ink-3);margin-left:var(--s3)}
+.gk:first-child{margin-left:0}
+.gk.yu{background:var(--navy-tint);border-color:var(--navy)}
+.gk.tl{border-style:dashed}
+.gtext{margin:var(--s3) 0 0;padding-left:var(--s6);color:var(--ink-2);max-width:64ch}
+.gbul{margin:var(--s3) 0;padding-left:var(--s6);max-width:64ch}
+.gbul li{margin:var(--s2) 0}
+@media (min-width:600px){.gtext{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
+@media (max-width:599px){.gsvg{display:none}.gfig{margin:0}.glegend{display:none}}

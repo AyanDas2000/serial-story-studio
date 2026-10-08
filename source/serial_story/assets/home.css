@@ -1,0 +1,57 @@
+/* Home: the shelf of series. Tokens come from v1.css. */
+body.home{display:block}
+.hbar{display:flex;align-items:center;justify-content:space-between;gap:var(--s4);height:68px;padding:0 var(--s6);background:var(--paper);border-bottom:1px solid var(--hair)}
+.hbar .brand{font:600 15px/24px var(--ui)}
+.hmode{color:var(--ink-2);font-size:13px;line-height:18px;text-align:right}
+.hwrap{max-width:1040px;margin:0 auto;padding:var(--s8) var(--s6) var(--s18)}
+.hhead{display:flex;align-items:center;justify-content:space-between;gap:var(--s4);flex-wrap:wrap}
+.hhead h1{font:500 32px/40px var(--prose)}
+.hsub{margin:var(--s2) 0 var(--s6);max-width:60ch}
+.hnew{max-width:480px;margin:0 0 var(--s6);padding:var(--s4) var(--s6) var(--s6);background:var(--page);border:1px solid var(--hair);border-radius:var(--r-md)}
+.hnew input{width:100%}
+.hintro{max-width:60ch;margin:0 0 var(--s6);padding:var(--s4) var(--s6);border-left:2px solid var(--navy);background:var(--navy-tint);border-radius:0 var(--r-md) var(--r-md) 0}
+.hintro h2{font:600 15px/24px var(--ui);margin:0 0 var(--s2)}
+.hintro ol{margin:0;padding-left:var(--s6);list-style:decimal}
+.hintro li{margin:var(--s1) 0}
+.shelf{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:var(--s4)}
+.scard{display:flex;min-height:200px;background:var(--page);border:1px solid var(--hair);border-radius:var(--r-md);transition:border-color var(--d-fast),background-color var(--d-fast)}
+.scard:hover{border-color:var(--ink-3)}
+.scard-link{display:flex;flex-direction:column;gap:var(--s2);flex:1;min-width:0;padding:var(--s6);color:inherit;text-decoration:none;border-radius:inherit;transition:transform var(--d-press) var(--ease-out)}
+.scard-link:active{transform:scale(.985)}
+.sbadges{display:flex;gap:var(--s2);flex-wrap:wrap}
+.sbadge{display:inline-flex;align-items:center;min-height:24px;padding:0 var(--s3);border-radius:999px;background:var(--navy-tint);color:var(--navy);font:500 12px/16px var(--ui)}
+.sbadge.quiet{background:none;border:1px solid var(--hair);color:var(--ink-2)}
+.stitle{font:500 22px/30px var(--prose);margin:var(--s1) 0 0;overflow-wrap:anywhere}
+.spremise{color:var(--ink-2);margin:0;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.sdots{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:var(--s3)}
+.sdots i{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink-3);background:var(--paper)}
+.sdots i[data-on]{background:var(--ink);border-color:var(--ink)}
+.sprog{margin-top:auto;width:100%;height:6px;accent-color:var(--ink)}
+.smeta{margin:0;color:var(--ink-2);font-size:13px;line-height:18px}
+.smeta span{display:block}
+.scard-link:not(:has(.sdots,.sprog)) .smeta{margin-top:auto}
+.scard.skel{min-height:200px;background:var(--navy-tint);border-color:transparent}
+.field-err{color:var(--rust);margin:var(--s2) 0 0}
+.sbadge.live{background:var(--ink);color:var(--page)}
+.hwriter{border:0;margin:var(--s4) 0 0;padding:0}
+.hwriter legend{font:600 14px/20px var(--ui);padding:0;margin-bottom:var(--s2)}
+.hopt{display:flex;align-items:flex-start;gap:var(--s3);min-height:44px;padding:var(--s2) 0;cursor:pointer}
+.hopt input{flex:none;width:20px;min-height:0;height:20px;padding:0;margin:2px 0 0;accent-color:var(--navy)}
+.hopt span{display:flex;flex-direction:column}
+.hcap{margin-top:var(--s3)}
+.hcap input{width:8em}
+.scard.off{opacity:.7}
+.scard.off .scard-link{cursor:default}
+.startdlg{margin:auto;width:min(820px,96vw);max-height:92vh;overflow:auto;padding:var(--s6);border:1px solid var(--hair);border-radius:var(--r-md);background:var(--paper);color:var(--ink)}
+.startdlg::backdrop{background:color-mix(in srgb,var(--ink) 40%,transparent)}
+.startbar{display:flex;align-items:center;justify-content:space-between;gap:var(--s4)}
+.startdlg h2:focus{outline:none}
+.startdlg h2{font:500 26px/34px var(--prose);margin:var(--s3) 0 var(--s3)}
+.startnav{justify-content:space-between;margin-top:var(--s6)}
+@media (max-width:599px){
+  .hbar{padding:0 var(--s4);height:56px}
+  .hmode{display:none}
+  .hwrap{padding:var(--s6) var(--s4) var(--s12)}
+  .hhead h1{font-size:26px;line-height:32px}
+}
+@media (prefers-reduced-motion:reduce){.scard,.scard-link{transition:none}.scard-link:active{transform:none}}

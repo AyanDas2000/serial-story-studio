@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Serial Story Studio: beta report (latest)</title>
+<style>
+:root{--ink:#16202a;--mute:#5b6773;--line:#dfe4e8;--bg:#fafaf8;--card:#fff;--blue:#1f4e79;--green:#2f7a4d;--amber:#a76a00;--red:#a63a32}
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 "Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+main{max-width:1000px;margin:0 auto;padding:32px 20px 80px}
+h1{font-size:30px;margin:0 0 6px}h2{font-size:22px;margin:48px 0 8px;padding-top:16px;border-top:1px solid var(--line)}h3{font-size:17px;margin:24px 0 4px}
+p{margin:8px 0}.mute{color:var(--mute)}code{background:#eef1f3;padding:1px 5px;border-radius:4px;font-size:.9em}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}.stat b{display:block;font-size:26px;font-variant-numeric:tabular-nums}.stat span{color:var(--mute);font-size:14px}
+table{border-collapse:collapse;width:100%;background:var(--card);border:1px solid var(--line);font-size:14.5px;margin:10px 0}th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f2f4f5}td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:12px;border-radius:99px;padding:1px 9px;color:#fff;background:var(--mute)}.tag.ok{background:var(--green)}.tag.warn{background:var(--amber)}.tag.bad{background:var(--red)}
+.note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:8px;padding:12px 16px;margin:14px 0}
+.note.old{border-left-color:var(--red)}.note.ok{border-left-color:var(--green)}
+.shots{display:grid;gap:18px}figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}figure img{width:100%;display:block}figcaption{padding:10px 14px;font-size:14.5px}
+blockquote{margin:10px 0;padding:8px 14px;border-left:3px solid var(--line);color:#333;background:#fff}
+ol,ul{padding-left:22px}li{margin:4px 0}
+</style></head><body><main>
+
+<h1>Serial Story Studio, beta report</h1>
+<p class="mute">Latest version. 8 October 2026, written in IST. Branch <code>feature/ledger-first</code>, 29 commits since the previous report, 354 tests passing in the last full run. Every number below comes from a file, a spend log or a test run this session. Anything not verified says so.</p>
+
+
+<div class="grid">
+<div class="stat"><b>354</b><span>tests passing (was 217 in the 4 Oct report)</span></div>
+<div class="stat"><b>10</b><span>episodes of a live series drafted by real models, edited and approved by an author, and read into memory</span></div>
+<div class="stat"><b>$0.54</b><span>cost of those ten episodes, their re-reads and recovery (limit was $3)</span></div>
+<div class="stat"><b>429</b><span>facts kept in memory, each with the quote it came from</span></div>
+<div class="stat"><b>REVISE</b><span>verdict of a blind independent reviewer on those ten episodes</span></div>
+</div>
+
+<h2>1. What a tester gets</h2>
+<p>A local web app, run from a folder on your own computer. You write a direction (premise and spine), plan episodes one line each, ask a writer to draft them, read and edit, approve, and the approved text is read into a memory of facts with quotes. The writer never sees Memory, secrets or chat. Four actions are yours alone and chat cannot do any of them: adopt the direction, adopt the plan, approve an episode, save story changes.</p>
+<p>Two ways to run it. <b>Practice mode</b> needs no key and sends nothing anywhere: a scripted writer produces filler so you can judge the desk. <b>Live writers</b> use Merge Gateway and need a separately supplied key, with a spend limit you set per series.</p>
+
+<h2>2. What is new since the 4 October report</h2>
+<table><tr><th>Area</th><th>What changed</th><th>Where it is proved</th></tr>
+<tr><td>Shelf of series</td><td>Home page lists series. Each has its own folder, database, plan, memory and secrets. A sample series is included.</td><td><code>tests/test_v1_shelf.py</code></td></tr>
+<tr><td>Live series</td><td>Each live series has its own spend limit (default $3, never above $5) and its own spend log. Restarting does not reset what was spent. A live series cannot run on the practice writer by mistake.</td><td><code>tests/test_v1_shelf_live.py</code>, <code>test_v1_merge_provider.py</code></td></tr>
+<tr><td>Long plans</td><td>Plans of 100 episodes work. The Tide Ledger has 100 planned lines.</td><td>Author run, final snapshot</td></tr>
+<tr><td>Recovery</td><td>Resuming a paused run keeps episodes already drafted. A paid draft that was too long is readable, and the author can use it and trim it. Both were broken in the first author run and fixed.</td><td>Author retest, items E5 and E6</td></tr>
+<tr><td>Length</td><td>The author sets shortest, aim and longest per series (Short, Usual, Long presets, any value from 100 to 3000). The writer is told the numbers. A draft up to a fifth past the longest is kept and marked. Longer is set aside, still readable.</td><td>Author retest E2 to E4; 250/350/450 gave 388 and 394 words</td></tr>
+<tr><td>Fewer invented facts</td><td>The writer's standing instructions now have a Continuity and Grounding section. After each draft the desk lists names that appear in no earlier text.</td><td><code>tests/test_v1_grounding.py</code>; section 5 below</td></tr>
+<tr><td>Onboarding</td><td>A six-step walkthrough opens the first time and from the Start here button. It ends by opening the new series form.</td><td>Browser check this session</td></tr>
+<tr><td>How it works</td><td>A page inside Studio explains the logic with diagrams: who decides, the loop, what the writer is shown, from draft to memory, length, money and safety. On a phone the diagrams are replaced by the same content as short lists.</td><td>Screenshots below</td></tr>
+<tr><td>Author tools</td><td>A command line client for the same desk (<code>scripts/author_client.py</code>) so an author can work from a terminal. It goes through the same commands and the same checks and never touches the key.</td><td><code>tests/test_author_client.py</code></td></tr>
+<tr><td>Real chat</td><td>Chat is a real conversation with the writer (Claude Opus 5.5): it remembers the last few messages and always knows your premise and spine. Answers are plain prose. It still changes nothing by itself.</td><td><code>tests/test_v1_review3.py</code>; two live chats</td></tr>
+<tr><td>Episode titles</td><td>The writer names each draft (a title line on top, stripped before the prose is stored). The title shows in the Write header and the episode list.</td><td><code>tests/test_v1_titles.py</code>; all 15 Ron episodes drafted live, titles on 2 to 15</td></tr>
+<tr><td>Cut-off drafts can be retried</td><td>An answer cut off mid-episode (the writer ran out of room) is billed, discarded, and the run pauses with a plain Try again. Resuming drafts the episode. Before, this surfaced as an unconfirmed charge that needed settling in Money.</td><td><code>tests/test_v1_titles.py</code>; Ron episode 5 failed this way live, then drafted on resume</td></tr>
+<tr><td>Cleaner rewrites</td><td>A "tighten it" rewrite comes back as the passage alone: any preamble ("Here it is:") or echo of the original paragraph is stripped, and an answer that is only the original is rejected instead of offered.</td><td><code>tests/test_v1_merge_provider.py</code>; live check on Ron episode 5</td></tr>
+<tr><td>Fewer confusing buttons</td><td>Chat replies no longer offer Use this buttons that placed suggestions into the plan or text. Copy and Ask again remain; nothing is placed for you.</td><td><code>tests/test_v1_ui_static.py</code></td></tr>
+<tr><td>Walkthrough dead button</td><td>On Windows a stale copy of the program could keep the port while a new one started, and the Start button then did nothing. A port is now held exclusively and a second start says so in plain words.</td><td><code>tests/test_server_port.py</code></td></tr>
+</table>
+
+<h2>3. Evidence from a real author run</h2>
+<p>An independent agent-assisted test session acted as the author of "The Tide Ledger" using only the desk and its client. It read the instructions, set the length, drafted, edited and approved. A second, fresh reviewer then read the ten approved episodes with no production notes. The literary review is included at <code>demo/the-tide-ledger/INDEPENDENT-REVIEW.md</code>.</p>
+<table><tr><th>Episode</th><th class="n">1</th><th class="n">2</th><th class="n">3</th><th class="n">4</th><th class="n">5</th><th class="n">6</th><th class="n">7</th><th class="n">8</th><th class="n">9</th><th class="n">10</th></tr>
+<tr><td>Words approved</td><td class="n">784</td><td class="n">829</td><td class="n">799</td><td class="n">783</td><td class="n">776</td><td class="n">873</td><td class="n">871</td><td class="n">895</td><td class="n">882</td><td class="n">888</td></tr></table>
+<p class="mute">Series range 650 to 900, aim 780. Counts from the independent reviewer.</p>
+<table><tr><th>Cost</th><th class="n">USD</th></tr>
+<tr><td>First run (episodes 1 to 5 and related calls)</td><td class="n">0.3578</td></tr>
+<tr><td>Four drafting calls, episodes 7 to 10</td><td class="n">0.1730</td></tr>
+<tr><td>Five memory reads, episodes 6 to 10</td><td class="n">0.0112</td></tr>
+<tr><td><b>The Tide Ledger, total of $3 limit</b></td><td class="n"><b>0.5420</b></td></tr>
+<tr><td>The Last Tram Ticket, two short episodes of a $0.50 limit</td><td class="n">0.0379</td></tr>
+<tr><td>Episode 11 of the Tide Ledger, drafted this session to test the new prompt, not approved</td><td class="n">0.0719</td></tr></table>
+<p>One episode costs about $0.04 to $0.07 to draft. The cost rises with the number of earlier episodes sent in full: episode 11, with ten earlier episodes sent, cost $0.0719.</p>
+
+<h3>The independent verdict</h3>
+<blockquote><b>REVISE.</b> A compelling, controlled civic mystery with a credible central relationship and unusually tangible paperwork. Revision is warranted because the destruction deadline loses clarity at the critical overnight transition, the planned authentication remains incomplete, and several evidentiary assertions need firmer support. These are local problems, not grounds to discard the arc.</blockquote>
+<p class="mute">From the reviewer's saved review (verbatim sentences). The reviewer also named episodes 1 and 7 as strongest and episode 6 as weakest.</p>
+
+<h2>4. What the author run found, and what we did</h2>
+<table><tr><th>Finding</th><th>State</th></tr>
+<tr><td>Resume rewrote episodes already drafted</td><td><span class="tag ok">Fixed</span> Retested: episodes 1 to 6 kept, only 7 to 10 drafted.</td></tr>
+<tr><td>A paid over-length draft could not be read</td><td><span class="tag ok">Fixed</span> Visible in full, can be used and trimmed.</td></tr>
+<tr><td>No numeric length control</td><td><span class="tag ok">Fixed</span> Studio, Length and a Change link on the direction.</td></tr>
+<tr><td>Pause text said a draft was set aside as over the limit after the limit was raised</td><td><span class="tag ok">Fixed</span> in <code>b9f306d</code>, covered by a test. Not retested live by the author.</td></tr>
+<tr><td>Client exit codes hid failures</td><td><span class="tag ok">Fixed</span> in <code>b9f306d</code>. 1 means refused, 3 means paused. Not retested live.</td></tr>
+<tr><td>Browser stayed stale after the client changed the series</td><td><span class="tag warn">Improved</span> The page refreshes quietly when you return to it and every 15 seconds. Not retested live.</td></tr>
+<tr><td>The length gauge showed only the aim, not the series range</td><td><span class="tag ok">Fixed</span> in <code>b9f306d</code>: the gauge now spans shortest to longest. Not retested live.</td></tr>
+<tr><td>Memory is a long list, some quotes are weak evidence</td><td><span class="tag bad">Open</span> A compact view is not built.</td></tr>
+<tr><td>A long plan is one flat list</td><td><span class="tag bad">Open</span> Named arcs and a default "Draft next 5" are not built. Waiting on a decision.</td></tr>
+<tr><td>Story problems the reviewer named (deadline gap, episode 6 authentication, episode 10 neighbours)</td><td><span class="tag warn">Author's job</span> These are in the story, not the tool. Suggested edits are in the audit below. Nothing was changed.</td></tr>
+</table>
+
+<h2>5. Invented facts: my own audit and what changed</h2>
+<p>I read all ten episodes against the saved direction. The full table is in <code>docs/review/TIDE-LEDGER-HALLUCINATION-AUDIT.md</code>. In short:</p>
+<ul>
+<li>No new named character was invented. The cast held for ten episodes.</li>
+<li>The writer did invent places and offices that the direction never gave it (Tallow Quay, Old Cut, Dyer's Bridge, Haskett and Dunn, Customs Library, Reclamation Committee, Aldermoor, the Lanterns). They stayed consistent once introduced.</li>
+<li>Three claims were unsupported by what the story had shown: "her neighbours say so" (episode 10), a lockkeeper who "did hear of" the inspector (episode 9), "Those were your neighbours" (episode 8).</li>
+<li>A deadline (Thursday low water) is set up in episode 7 and then not reckoned with.</li>
+</ul>
+<p><b>What changed.</b> The writer's standing instructions now say: earlier episodes are fixed and must not be contradicted, the direction wins a conflict, show where evidence comes from, track who knows what and how, copy numbers exactly, add a place or office only when the scene needs it, do not settle open questions, and when unsure leave it vague. The desk also lists names in a draft that appear in no earlier text.</p>
+<div class="note"><b>What this does not prove.</b> One live draft (episode 11) was made with the new instructions. It carried the earlier facts correctly and added one new body (a Dock Hiring Hall). That shows the instructions do no harm and the name list works. It is not a measurement of how often a writer invents facts. The author's read, edit and approve steps remain the real protection. A comparison over several episodes, with and without the new section, has not been run.</div>
+
+<h2>6. The product, as a tester sees it</h2>
+<div class="shots">
+<figure><img src="img/01-welcome-walkthrough.png" alt="First-run walkthrough, step one"><figcaption>First time on the home page: a six-step walkthrough. It can be reopened with Start here.</figcaption></figure>
+<figure><img src="img/02-walkthrough-loop.png" alt="Walkthrough step four, the loop diagram"><figcaption>Step four shows the loop. Solid boxes are your decisions, dashed boxes are the tool working.</figcaption></figure>
+<figure><img src="img/03-home.png" alt="Home page with the shelf of series"><figcaption>The shelf. Each series is its own story.</figcaption></figure>
+<figure><img src="img/04-write-episode-11.png" alt="Write page showing episode 11 with its length and new-name notes"><figcaption>A live draft (episode 11 of the Tide Ledger, not approved). The notes above the text say it is outside the series range and list names that are new in this draft.</figcaption></figure>
+<figure><img src="img/06-studio-length.png" alt="Studio Length room"><figcaption>Studio, Length: three starting points, three fields, the stop threshold in plain words.</figcaption></figure>
+<figure><img src="img/07-how-it-works.png" alt="Studio How it works page with diagrams"><figcaption>Studio, How it works: the whole logic with diagrams, readable by someone who has never used the tool.</figcaption></figure>
+<figure><img src="img/ron-ep5-title-rewrite.png" alt="Episode 5 of Ron. The Detective with its title, a clean rewrite candidate, and chat replies without Use this buttons"><figcaption>Ron, episode 5: the writer's title in the header and list, a rewrite candidate that is only the new passage, and chat replies with Copy and Ask again only.</figcaption></figure>
+</div>
+
+<h2>7. Try the code</h2><p>Run <code>python try_it.py --open</code> inside the repository's <code>source</code> folder for free practice mode. For live generation with the separately supplied evaluation key, follow <a href="../LIVE-EVALUATION.md">the live evaluation guide</a>. The key is not stored in the repository. The provider-side review budget and local per-series budget are separate.</p>
+<h2>8. Not verified</h2>
+<ul>
+<li>Running out of money mid-run, restart in the middle of a paid run, and the secret check on a real live draft have not been exercised live.</li>
+<li>The Free plan of Merge has not been tried with this program.</li>
+<li>The new instructions have been tried on one live draft. There is no before and after measurement.</li>
+<li>The new-name list only finds capitalised words. It cannot find a wrong date, number or relationship.</li>
+<li>The author-run fixes made after the retest (pause wording, exit codes, quiet refresh) are covered by tests, not by a second author run.</li>
+<li>I did not run the beta zip on a Mac or Linux machine, or on a computer without my Python setup.</li>
+<li>Episodes drafted before titles existed (Ron episode 1) have no title until redrafted; nothing invents one after the fact.</li>
+<li>Three of the fifteen Ron episodes ran a little past the 900-word top of their range (915 to 980 words). They are kept and marked, within the stop threshold; the author trims or redrafts.</li>
+<li>Resuming a run after an upstream edit re-drafts the episodes in between (they must follow the words actually on the page). This costs extra drafting calls; Ron episodes 2 to 4 re-drafted this way for about $0.12.</li>
+<li>The title and cleanup rules rely on the writer following the format. A missing or malformed title simply means no title; a stray preamble the cleaner does not recognise would still show.</li>
+</ul>
+
+
+</main></body></html>
