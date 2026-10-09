@@ -29,6 +29,29 @@ The original development checkout passed 354 tests. Fresh publication verificati
 
 ## Screenshots
 
+### Current app views
+
+Captured on 9 October 2026 using the included Court Recorder sample in offline practice mode. These views show existing sample prose and saved facts; no new live model generation was used for these captures.
+
+**Home:** the included sample on the series shelf.
+
+![Home showing the included Court Recorder sample](screenshots/03-home.png)
+
+**Writing desk:** an approved sample episode, episode timeline and author chat.
+
+![Writing desk with approved sample episode and author chat](screenshots/04-writing-desk.png)
+
+**Memory connections:** names that occur together in saved facts or their source sentences. Thicker edges represent more shared facts. This view helps inspect evidence; it does not guarantee story consistency.
+
+![Memory graph connecting names from saved facts and source sentences](screenshots/05-memory-connections.png)
+
+**Fact source:** a saved fact with its source passage highlighted and navigation back to the paragraph.
+
+![Saved fact with its exact source passage highlighted](screenshots/06-fact-source.png)
+
+The saved-fact ledger does not yet feed the writer. Draft requests still include full preceding prose; bounded retrieval and stronger continuity checks remain under development.
+
+
 Live drafting and editing (existing live demonstration):
 
 ![Live drafting and editing](screenshots/01-live-drafting-and-editing.png)
